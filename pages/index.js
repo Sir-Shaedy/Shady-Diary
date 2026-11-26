@@ -1,238 +1,162 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [hoveredLetter, setHoveredLetter] = useState(null);
+  const [hoveredId, setHoveredId] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const theme = {
-    backgroundColor: darkMode ? '#0a0a0a' : '#ffffff',
-    dateColor: darkMode ? '#ff5900ff' : '#ff0008ff',
-    textColor: darkMode ? '#ffffff' : '#1a1a1a',
-    accentColor: darkMode ? '#f3f1f1ff' : '#000000ff',
-    borderColor: darkMode ? '#2a2a2a' : '#e5e5e5',
-    linkColor: darkMode ? '#60a5fa' : '#2563eb',
-    badgeBg: darkMode ? '#1e1e1e' : '#f3f4f6',
-    badgeText: darkMode ? '#e5e5e5' : '#4b5563',
-    cardBg: darkMode ? '#141414' : '#fafafa',
-    cardHoverBg: darkMode ? '#1a1a1a' : '#f5f5f5',
-    searchBg: darkMode ? '#1a1a1a' : '#f9fafb',
-    gradientFrom: darkMode ? '#3b82f6' : '#2a00feff',
-    gradientTo: darkMode ? '#8b5cf6' : '#7c3aed'
-  };
-
-  const categoryColors = {
-    'Blockchain Security': {
-      bg: darkMode ? '#1e3a5f' : '#dbeafe',
-      text: darkMode ? '#60a5fa' : '#1e40af',
-      border: darkMode ? '#2563eb' : '#3b82f6'
-    },
-    'Philosophy': {
-      bg: darkMode ? '#4c1d95' : '#ede9fe',
-      text: darkMode ? '#a78bfa' : '#5b21b6',
-      border: darkMode ? '#7c3aed' : '#8b5cf6'
-    },
-    'Engineering': {
-      bg: darkMode ? '#164e63' : '#cffafe',
-      text: darkMode ? '#22d3ee' : '#0e7490',
-      border: darkMode ? '#06b6d4' : '#22d3ee'
-    }
+    bg: darkMode ? '#111318' : '#ffffff',
+    text: darkMode ? '#e6e6e6' : '#000000',
+    muted: darkMode ? '#9aa0a6' : '#1f2328',
+    border: darkMode ? '#2a2e35' : '#e5e7eb',
+    surface: darkMode ? '#171a1f' : '#f7f7f8',
+    accent: darkMode ? '#7aa2f7' : '#1f6feb'
   };
 
   const articles = [
     {
-      id: 'security_1',
-      title: "Understanding Pcaversaccio's Whitehat Frontrunning Script",
-      category: 'Blockchain Security',
-      date: 'November 16, 2025',
-      preview: 'The script is a practical example of turning MEV mechanics into a security tool.',
-      slug: 'security_1',
-      readTime: '8 min read'
+      id: 'kinetic-energy',
+      title: 'Kinetic Energy and the Cost of Pity',
+      category: 'Philosophy',
+      date: 'November 26, 2026',
+      preview: "Sharing momentum with someone who won't move has a cost. On energy, opportunity cost, and why pity makes us weak.",
+      slug: 'kinetic-energy',
+      readTime: '4 min read'
+    },
+    {
+      id: 'growing-as-coo',
+      title: 'Growing as a COO: Lessons from Building Detova Labs',
+      category: 'Career',
+      date: 'December 9, 2025',
+      preview: 'From hackathon team to company. The chaos, the lessons, and why the C-suite structure was wrong for us.',
+      slug: 'growing-as-coo',
+      readTime: '10 min read'
     }
-    // {
-    //   id: 'philosophy_1',
-    //   title: 'On Building in Public',
-    //   category: 'Philosophy',
-    //   date: 'November 15, 2025',
-    //   preview: 'Why I believe sharing your journey is more valuable than hiding until perfection.',
-    //   slug: 'philosophy_1',
-    //   readTime: '5 min read'
-    // },
-    // {
-    //   id: 'engineering_1',
-    //   title: 'Improving API Rate Limiting Systems',
-    //   category: 'Engineering',
-    //   date: 'November 15, 2025',
-    //   preview: 'Current rate limiting approaches are broken. Here\'s how we can do better.',
-    //   slug: 'engineering_1',
-    //   readTime: '10 min read'
-    // }
   ];
 
-  const filteredArticles = articles.filter(article => 
+  const filteredArticles = articles.filter(article =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     article.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     article.preview.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const titleText = "Shady's Diary";
-  const titleLetters = titleText.split('');
+  const serif = "'Playfair Display', Georgia, 'Times New Roman', serif";
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   return (
-    <div style={{ 
+    <div style={{
       minHeight: '100vh',
-      backgroundColor: theme.backgroundColor,
-      color: theme.textColor,
+      backgroundColor: theme.bg,
+      color: theme.text,
       transition: 'background-color 0.3s ease, color 0.3s ease'
     }}>
-      {/* Gradient background overlay - FIXED */}
       <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '250px',
-        background: `linear-gradient(135deg, ${theme.gradientFrom}15 0%, ${theme.gradientTo}15 100%)`,
-        opacity: 0.5,
-        pointerEvents: 'none',
-        zIndex: 0,
-        transition: 'background 0.3s ease'
-      }} />
-
-      <div style={{ 
-        maxWidth: '900px', 
-        margin: '0 auto', 
-        padding: '0 20px',
-        position: 'relative',
-        zIndex: 1
+        maxWidth: '720px',
+        margin: '0 auto',
+        padding: '0 24px'
       }}>
-        
-        {/* Header - ALIGNED WITH BUTTON */}
-        <header style={{ 
-          paddingTop: '30px',
-          marginBottom: '50px',
+
+        {/* Header */}
+        <header style={{
+          paddingTop: '64px',
+          marginBottom: '40px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'flex-start'
+          alignItems: 'flex-start',
+          gap: '24px',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 0.5s ease, transform 0.5s ease'
         }}>
           <div style={{ flex: 1 }}>
-            {/* Animated Title */}
-            <h1 style={{ 
-              fontSize: '56px', 
-              marginBottom: '12px',
-              fontWeight: '800',
+            <h1 style={{
+              fontSize: 'clamp(2.2rem, 5.5vw, 3rem)',
+              marginBottom: '14px',
+              fontWeight: '700',
               letterSpacing: '-1px',
               lineHeight: '1.1',
-              display: 'flex',
-              flexWrap: 'wrap'
+              fontFamily: serif,
+              color: theme.text
             }}>
-              {titleLetters.map((letter, index) => (
-                <span
-                  key={index}
-                  onMouseEnter={() => setHoveredLetter(index)}
-                  onMouseLeave={() => setHoveredLetter(null)}
-                  style={{
-                    display: 'inline-block',
-                    // background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})`,
-                    WebkitBackgroundClip: 'text',
-                    // WebkitTextFillColor: 'transparent',
-                    color: theme.gradientFrom,
-                    backgroundClip: 'text',
-                    cursor: 'default',
-                    transform: hoveredLetter === index ? 'translateY(-8px) scale(1.1)' : 'translateY(0) scale(1)',
-                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    marginRight: letter === ' ' ? '12px' : '0'
-                  }}
-                >
-                  {letter === ' ' ? '\u00A0' : letter}
-                </span>
-              ))}
+              AIM&apos;s Spot<span style={{ color: theme.accent }}>.</span>
             </h1>
-
-            <p style={{ 
-              fontSize: '16px', 
-              color: theme.accentColor,
-              fontWeight: '500',
-              letterSpacing: '0.5px',
-              marginBottom: '12px',
-              fontFamily: 'Georgia, serif'
-            }}>
-              Blockchain • Life • Engineering
-            </p>
             <p style={{
-              fontSize: '14px',
-              color: theme.accentColor,
+              fontSize: '16px',
+              color: theme.muted,
+              maxWidth: '520px',
+              fontFamily: serif,
               fontStyle: 'italic',
-              maxWidth: '600px',
-              fontFamily: 'Georgia, serif'
+              lineHeight: '1.6'
             }}>
-              My public journal of ideas, research, and thoughts on building secure systems.
+              My journal on things I&apos;ve tried, studied and failed. I&apos;m self-reflecting here.
             </p>
           </div>
 
-          {/* Dark Mode Button - ALIGNED */}
-          <button 
-            onClick={() => setDarkMode(!darkMode)} 
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="no-print"
             style={{
-              padding: '10px 20px',
-              backgroundColor: theme.cardBg,
-              color: theme.textColor,
-              border: `2px solid ${theme.borderColor}`,
-              borderRadius: '50px',
+              padding: '7px 13px',
+              backgroundColor: 'transparent',
+              color: theme.muted,
+              border: `1px solid ${theme.border}`,
+              borderRadius: '6px',
               cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              transition: 'all 0.3s ease',
-              boxShadow: darkMode ? '0 4px 12px rgba(0,0,0,0.3)' : '0 4px 12px rgba(0,0,0,0.08)',
+              fontSize: '12px',
+              fontWeight: '500',
+              letterSpacing: '0.3px',
               flexShrink: 0,
-              marginLeft: '20px'
+              transition: 'border-color 0.2s ease, color 0.2s ease'
             }}
             onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.borderColor = theme.linkColor;
+              e.currentTarget.style.borderColor = theme.accent;
+              e.currentTarget.style.color = theme.accent;
             }}
             onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.borderColor = theme.borderColor;
+              e.currentTarget.style.borderColor = theme.border;
+              e.currentTarget.style.color = theme.muted;
             }}
           >
-            {darkMode ? '☀️ Light' : '🌙 Dark'}
+            {darkMode ? 'Light' : 'Dark'}
           </button>
         </header>
 
         {/* Navigation */}
-        <nav style={{ 
-          borderBottom: `2px solid ${theme.borderColor}`,
-          paddingBottom: '16px',
+        <nav style={{
+          borderBottom: `1px solid ${theme.border}`,
           display: 'flex',
-          gap: '30px',
-          marginBottom: '40px'
+          gap: '26px',
+          marginBottom: '48px'
         }}>
-          <a href="/" style={{ 
+          <a href={`${base}/`} style={{
             textDecoration: 'none',
-            color: theme.textColor,
-            fontWeight: '700',
+            color: theme.accent,
+            fontWeight: '600',
             fontSize: '13px',
-            textTransform: 'uppercase',
-            letterSpacing: '1.5px',
-            position: 'relative',
-            paddingBottom: '16px',
-            borderBottom: `3px solid ${theme.linkColor}`,
-            marginBottom: '-18px'
+            letterSpacing: '0.3px',
+            paddingBottom: '14px',
+            marginBottom: '-1px',
+            borderBottom: `2px solid ${theme.accent}`
           }}>
             All Posts
           </a>
-          <a href="/about" style={{ 
+          <a href={`${base}/about/`} style={{
             textDecoration: 'none',
-            color: theme.accentColor,
-            fontWeight: '600',
+            color: theme.muted,
+            fontWeight: '500',
             fontSize: '13px',
-            textTransform: 'uppercase',
-            letterSpacing: '1.5px',
+            letterSpacing: '0.3px',
+            paddingBottom: '14px',
             transition: 'color 0.2s ease'
           }}
-          onMouseOver={(e) => e.currentTarget.style.color = theme.textColor}
-          onMouseOut={(e) => e.currentTarget.style.color = theme.accentColor}
+            onMouseOver={(e) => { e.currentTarget.style.color = theme.text; }}
+            onMouseOut={(e) => { e.currentTarget.style.color = theme.muted; }}
           >
             About
           </a>
@@ -240,132 +164,114 @@ export default function Home() {
 
         {/* Main Content */}
         <main>
-          {/* Section Header with Search */}
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '30px',
-            gap: '20px',
+            marginBottom: '24px',
+            gap: '16px',
             flexWrap: 'wrap'
           }}>
-            <h2 style={{ 
-              fontSize: '34px',
+            <span style={{
+              fontSize: '12px',
               fontWeight: '700',
-              color: theme.textColor,
-              letterSpacing: '-0.5px',
-              margin: 0
+              letterSpacing: '1.4px',
+              textTransform: 'uppercase',
+              color: theme.muted
             }}>
-              Latest Articles
-            </h2>
+              Latest Writing
+            </span>
 
-            {/* Search Box */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <input
                 type="text"
-                placeholder="Search articles..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
-                  padding: '10px 16px',
-                  backgroundColor: theme.searchBg,
-                  border: `2px solid ${theme.borderColor}`,
-                  borderRadius: '50px',
-                  color: theme.textColor,
-                  fontSize: '14px',
-                  width: '220px',
+                  padding: '8px 12px',
+                  backgroundColor: theme.surface,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: '6px',
+                  color: theme.text,
+                  fontSize: '13px',
+                  width: '170px',
                   outline: 'none',
-                  transition: 'all 0.3s ease'
+                  transition: 'border-color 0.2s ease'
                 }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = theme.linkColor;
-                  e.currentTarget.style.boxShadow = `0 0 0 3px ${theme.linkColor}25`;
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = theme.borderColor;
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = theme.accent; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = theme.border; }}
               />
-              <span style={{
-                fontSize: '13px',
-                color: theme.accentColor,
-                fontWeight: '500'
-              }}>
+              <span style={{ fontSize: '12px', color: theme.muted }}>
                 {filteredArticles.length} {filteredArticles.length === 1 ? 'post' : 'posts'}
               </span>
             </div>
           </div>
 
-          {/* Article List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {filteredArticles.length > 0 ? (
               filteredArticles.map((article) => {
-                const colors = categoryColors[article.category];
+                const isHovered = hoveredId === article.id;
                 return (
-                  <article 
+                  <article
                     key={article.id}
+                    onMouseEnter={() => setHoveredId(article.id)}
+                    onMouseLeave={() => setHoveredId(null)}
                     style={{
-                      padding: '28px',
-                      backgroundColor: theme.cardBg,
-                      borderRadius: '12px',
-                      border: `1px solid ${theme.borderColor}`,
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
-                      boxShadow: darkMode 
-                        ? '0 2px 12px rgba(0,0,0,0.2)' 
-                        : '0 2px 12px rgba(0,0,0,0.04)'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px)';
-                      e.currentTarget.style.boxShadow = darkMode 
-                        ? '0 8px 24px rgba(0,0,0,0.3)' 
-                        : '0 8px 24px rgba(0,0,0,0.1)';
-                      e.currentTarget.style.borderColor = colors.border;
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = darkMode 
-                        ? '0 2px 12px rgba(0,0,0,0.2)' 
-                        : '0 2px 12px rgba(0,0,0,0.04)';
-                      e.currentTarget.style.borderColor = theme.borderColor;
+                      padding: '26px 28px',
+                      backgroundColor: theme.surface,
+                      border: `1px solid ${isHovered ? theme.accent : theme.border}`,
+                      borderRadius: '10px',
+                      transform: isHovered ? 'translateY(-3px)' : 'translateY(0)',
+                      boxShadow: isHovered
+                        ? (darkMode ? '0 10px 28px rgba(0,0,0,0.35)' : '0 10px 28px rgba(0,0,0,0.08)')
+                        : 'none',
+                      transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease'
                     }}
                   >
-                    <div style={{ marginBottom: '14px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      marginBottom: '14px',
+                      flexWrap: 'wrap'
+                    }}>
                       <span style={{
-                        display: 'inline-block',
-                        padding: '6px 14px',
-                        backgroundColor: colors.bg,
-                        borderRadius: '20px',
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        backgroundColor: theme.accent,
+                        display: 'inline-block'
+                      }} />
+                      <span style={{
                         fontSize: '11px',
                         fontWeight: '700',
-                        color: colors.text,
+                        letterSpacing: '1px',
                         textTransform: 'uppercase',
-                        letterSpacing: '0.8px',
-                        border: `1px solid ${colors.border}`
+                        color: theme.muted
                       }}>
                         {article.category}
                       </span>
-                      <span style={{
-                        fontSize: '12px',
-                        color: theme.accentColor,
-                        fontWeight: '500'
-                      }}>
-                        {article.readTime}
-                      </span>
+                      <span style={{ color: theme.border }}>·</span>
+                      <span style={{ fontSize: '12px', color: theme.muted }}>{article.date}</span>
+                      <span style={{ color: theme.border }}>·</span>
+                      <span style={{ fontSize: '12px', color: theme.muted }}>{article.readTime}</span>
                     </div>
 
                     <h3 style={{
-                      fontSize: '29px',
-                      marginBottom: '8px',
-                      fontWeight: '700',
+                      fontSize: 'clamp(1.35rem, 2.6vw, 1.65rem)',
+                      marginBottom: '10px',
+                      fontWeight: '600',
                       lineHeight: '1.3',
+                      fontFamily: serif,
                       letterSpacing: '-0.3px'
                     }}>
-                      <a 
-                        href={`/posts/${article.slug}`}
+                      <a
+                        href={`${base}/posts/${article.slug}/`}
                         style={{
-                          color: theme.textColor,
-                          textDecoration: 'none'
+                          color: isHovered ? theme.accent : theme.text,
+                          textDecoration: 'none',
+                          transition: 'color 0.2s ease'
                         }}
                       >
                         {article.title}
@@ -373,143 +279,69 @@ export default function Home() {
                     </h3>
 
                     <p style={{
-                      fontSize: '17px',
-                      color: theme.dateColor,
-                      marginBottom: '12px',
-                      fontWeight: '900'
-                    }}>
-                      {article.date}
-                    </p>
-
-                    <p style={{
-                      fontSize: '20px',
-                      lineHeight: '1.6',
-                      color: theme.accentColor,
-                      marginBottom: '16px',
-                      fontWeight: '500'
+                      fontSize: '16px',
+                      lineHeight: '1.7',
+                      color: theme.muted,
+                      marginBottom: '18px'
                     }}>
                       {article.preview}
                     </p>
 
-                    <div style={{
-            margin: '40px 0',
-            padding: '5px',
-            width: '400px',
-            // height: '500px', 
-            alignItems: 'center', 
-            backgroundColor: theme.cardBg,
-            borderRadius: '12px',
-            border: `1px solid ${theme.borderColor}`,
-            marginLeft: '100px'
-          }}>
-            <img 
-              src="/images/frontrun.png"
-              alt="Sandwich Attack Diagram"
-              style={{
-                maxWidth: '100%',
-                height: 'auto',
-                borderRadius: '10px',
-                boxShadow: darkMode 
-                  ? '0 4px 20px rgba(0,0,0,0.4)' 
-                  : '0 4px 20px rgba(0,0,0,0.1)'
-              }}
-            />
-          </div>
-
-                    <a 
-                      href={`/posts/${article.slug}`}
+                    <a
+                      href={`${base}/posts/${article.slug}/`}
                       style={{
-                        color: theme.linkColor,
+                        color: theme.accent,
                         textDecoration: 'none',
                         fontWeight: '600',
                         fontSize: '14px',
-                        letterSpacing: '0.3px',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '6px',
-                        transition: 'gap 0.2s ease'
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.gap = '10px';
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.gap = '6px';
+                        gap: '6px'
                       }}
                     >
-                      Read article <span style={{ fontSize: '16px' }}>→</span>
+                      Read article
+                      <span style={{
+                        transition: 'transform 0.2s ease',
+                        transform: isHovered ? 'translateX(4px)' : 'translateX(0)'
+                      }}>
+                        →
+                      </span>
                     </a>
                   </article>
                 );
               })
             ) : (
-              <p style={{ 
-                textAlign: 'center', 
-                color: theme.accentColor,
-                padding: '40px',
+              <p style={{
+                textAlign: 'center',
+                color: theme.muted,
+                padding: '48px 24px',
                 fontSize: '16px'
               }}>
-                No articles found matching "{searchQuery}"
+                No articles found matching &quot;{searchQuery}&quot;
               </p>
             )}
           </div>
         </main>
 
-        {/* Footer - TIGHTER SPACING */}
+        {/* Footer */}
         <footer style={{
-          marginTop: '60px',
-          paddingTop: '30px',
-          paddingBottom: '40px',
-          borderTop: `2px solid ${theme.borderColor}`,
-          textAlign: 'center',
-          color: theme.accentColor,
-          fontSize: '13px'
+          marginTop: '80px',
+          paddingTop: '24px',
+          paddingBottom: '64px',
+          borderTop: `1px solid ${theme.border}`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '16px',
+          flexWrap: 'wrap',
+          color: theme.muted,
+          fontSize: '12px',
+          letterSpacing: '0.3px'
         }}>
-          <p style={{ marginBottom: '12px', fontWeight: '500' }}>
-            © 2025 Musa Ayomide Idris. All rights reserved.
+          <p>© 2026 Musa Ayomide Idris.</p>
+          <p style={{ fontStyle: 'italic', fontFamily: serif }}>
+            Writing to think.
           </p>
-          <div style={{ 
-            marginTop: '12px',
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '20px'
-          }}>
-            <a 
-              href="https://twitter.com/0xShaedyW" 
-              style={{ 
-                color: theme.linkColor,
-                textDecoration: 'none',
-                fontWeight: '600',
-                transition: 'transform 0.2s ease',
-                display: 'inline-block'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              X (Twitter)
-            </a>
-            <a 
-              href="https://github.com/sir-shaedy" 
-              style={{ 
-                color: theme.linkColor,
-                textDecoration: 'none',
-                fontWeight: '600',
-                transition: 'transform 0.2s ease',
-                display: 'inline-block'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              GitHub
-            </a>
-          </div>
         </footer>
       </div>
     </div>

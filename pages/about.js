@@ -1,197 +1,141 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function About() {
   const [darkMode, setDarkMode] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const theme = {
-    backgroundColor: darkMode ? '#0a0a0a' : '#ffffff',
-    textColor: darkMode ? '#ffffffff' : '#000000ff',
-    header1Color: darkMode ? '#bbff00ff' : '#0000ffff',
-    inlineColor: darkMode ? '#00ff55ff' : '#ff0008ff',
-    accentColor: darkMode ? '#beb9b9ff' : '#000000ff',
-    borderColor: darkMode ? '#2a2a2a' : '#e5e5e5',
-    linkColor: darkMode ? '#60a5fa' : '#2563eb',
-    cardBg: darkMode ? '#141414' : '#fafafa',
-    gradientFrom: darkMode ? '#3b82f6' : '#2563eb',
-    gradientTo: darkMode ? '#8b5cf6' : '#7c3aed'
+    bg: darkMode ? '#111318' : '#ffffff',
+    text: darkMode ? '#e6e6e6' : '#000000',
+    muted: darkMode ? '#9aa0a6' : '#1f2328',
+    border: darkMode ? '#2a2e35' : '#e5e7eb',
+    accent: darkMode ? '#7aa2f7' : '#1f6feb'
+  };
+
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+  const paragraph = {
+    fontSize: '17px',
+    lineHeight: '1.8',
+    color: theme.text,
+    marginBottom: '24px'
   };
 
   return (
-    <div style={{ 
+    <div style={{
       minHeight: '100vh',
-      backgroundColor: theme.backgroundColor,
-      color: theme.textColor,
+      backgroundColor: theme.bg,
+      color: theme.text,
       transition: 'background-color 0.3s ease, color 0.3s ease'
     }}>
       <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '250px',
-        background: `linear-gradient(135deg, ${theme.gradientFrom}15 0%, ${theme.gradientTo}15 100%)`,
-        opacity: 0.5,
-        pointerEvents: 'none',
-        zIndex: 0,
-        transition: 'background 0.3s ease'
-      }} />
-
-      <div style={{ 
-        maxWidth: '700px', 
-        margin: '0 auto', 
-        padding: '0 20px',
-        position: 'relative',
-        zIndex: 1
+        maxWidth: '700px',
+        margin: '0 auto',
+        padding: '0 24px'
       }}>
-        
-        <header style={{ 
-          paddingTop: '30px',
+
+        <header style={{
+          paddingTop: '40px',
           marginBottom: '40px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          gap: '16px',
+          opacity: mounted ? 1 : 0,
+          transition: 'opacity 0.4s ease'
         }}>
-          <a href="/" style={{
-            color: theme.linkColor,
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: '600'
-          }}>
+          <a
+            href={`${base}/`}
+            style={{
+              color: theme.muted,
+              textDecoration: 'none',
+              fontSize: '14px',
+              fontWeight: '500',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'color 0.2s ease'
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.color = theme.accent; }}
+            onMouseOut={(e) => { e.currentTarget.style.color = theme.muted; }}
+          >
             ← Back to Home
           </a>
 
-          <button 
-            onClick={() => setDarkMode(!darkMode)} 
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="no-print"
             style={{
-              padding: '10px 20px',
-              backgroundColor: theme.cardBg,
-              color: theme.textColor,
-              border: `2px solid ${theme.borderColor}`,
-              borderRadius: '50px',
+              padding: '8px 14px',
+              backgroundColor: 'transparent',
+              color: theme.muted,
+              border: `1px solid ${theme.border}`,
+              borderRadius: '6px',
               cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '600',
-              transition: 'all 0.3s ease'
+              fontSize: '13px',
+              fontWeight: '500',
+              transition: 'border-color 0.2s ease, color 0.2s ease'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.borderColor = theme.accent;
+              e.currentTarget.style.color = theme.accent;
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.borderColor = theme.border;
+              e.currentTarget.style.color = theme.muted;
             }}
           >
-            {darkMode ? '☀️ Light' : '🌙 Dark'}
+            {darkMode ? 'Light' : 'Dark'}
           </button>
         </header>
 
-        <main style={{ paddingBottom: '80px' }}>
-          <h1 style={{ 
-            fontSize: '48px',
-            fontWeight: '800',
-            marginBottom: '30px',
-            // background: `linear-gradient(135deg, ${theme.gradientFrom}, ${theme.gradientTo})`,
-            WebkitBackgroundClip: 'text',
-            // WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            color: theme.header1Color,
-            letterSpacing: '-1px'
+        <main style={{
+          paddingBottom: '96px',
+          opacity: mounted ? 1 : 0,
+          transition: 'opacity 0.4s ease'
+        }}>
+          <h1 style={{
+            fontSize: 'clamp(1.9rem, 4.5vw, 2.6rem)',
+            fontWeight: '700',
+            marginBottom: '32px',
+            color: theme.text,
+            letterSpacing: '-0.5px',
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            lineHeight: '1.2'
           }}>
             About Me
           </h1>
 
-          <div style={{ 
-            fontSize: '17px', 
-            lineHeight: '1.8',
-            color: theme.textColor,
-            fontFamily: 'Georgia, serif',
-            fontWeight: '400'
-          }}>
-            <p style={{ marginBottom: '24px' }}>
-              Hey! <br/><br/>I'm <b>Musa Ayomide</b>, a security researcher focused on blockchain trends, smart contract 
-              security, privacy and decentralized system. This blog is my public diary where 
-              I share my findings, thoughts, and ideas.
-            </p>
+          <p style={paragraph}>Look man,</p>
 
-            <h2 style={{ 
-              fontSize: '28px',
-              fontWeight: '700',
-              marginTop: '40px',
-              color: theme.header1Color,
-              marginBottom: '20px',
-              fontFamily: 'system-ui'
-            }}>
-              What I Write About
-            </h2>
+          <p style={paragraph}>
+            Random thoughts usually hit my mind. Before now, I used to write them on my WhatsApp
+            status to share my thoughts and get interesting feedback, but now I see those actions
+            as validation-driven. In fact, most of the responses I&apos;ve got haven&apos;t really
+            improved me, and I forget them quickly. I don&apos;t think I have a short memory. It&apos;s
+            just that my brain is quick to discard information I haven&apos;t really applied.
+          </p>
 
-            <p style={{ marginBottom: '16px' }}>
-              <strong style={{ color: theme.inlineColor }}>Blockchain Security:</strong> Deep 
-              dives into blockchain updates, smart contract vulnerabilities, audit findings, and security patterns. 
-              I break down complex patterns into understandable concepts.
-            </p>
+          <p style={paragraph}>
+            So this blog is just where I get to write, self-reflect while writing or after posting
+            a piece, and keep writing! I can talk about anything. I can be boring too.
+          </p>
 
-            <p style={{ marginBottom: '16px' }}>
-              <strong style={{ color: theme.inlineColor }}>Philosophy:</strong> My thoughts on 
-              building in public, continuous learning, and the mindset needed for security work.
-            </p>
+          <p style={paragraph}>
+            PS: (or is PS the right thing to use?) Another reason I&apos;m doing this is to improve
+            the way I write, as I make subtle grammatical blunders. I&apos;ve come to like writing
+            too. I drafted a manuscript recently without AI, and it gave me ecstasy! I was able to
+            see the gaps in my original work, break some AI slop down, and create magic.
+          </p>
 
-            <p style={{ marginBottom: '24px' }}>
-              <strong style={{ color: theme.inlineColor }}>Engineering:</strong> System design, 
-              API architecture, and how we can improve existing infrastructure.
-            </p>
-
-            <h2 style={{ 
-              fontSize: '28px',
-              fontWeight: '700',
-              color: theme.header1Color,
-              marginTop: '40px',
-              marginBottom: '20px',
-              fontFamily: 'system-ui'
-            }}>
-              Why This Blog?
-            </h2>
-
-            <p style={{ marginBottom: '24px' }}>
-              I believe in learning and building in public. Writing forces me to understand 
-              concepts deeply, and sharing helps others avoid the mistakes I've made. Plus, 
-              future-me will thank current-me for these notes.
-            </p>
-
-            <h2 style={{ 
-              fontSize: '28px',
-              fontWeight: '700',
-              color: theme.header1Color,
-              marginTop: '40px',
-              marginBottom: '20px',
-              fontFamily: 'system-ui'
-            }}>
-              Get in Touch
-            </h2>
-
-            <p style={{ marginBottom: '16px' }}>
-              I'm always open to discussions about security, blockchain, or anything interesting. 
-              Reach out on:
-            </p>
-
-            <div style={{ marginTop: '20px' }}>
-              <a 
-                href="https://twitter.com/0xShaedyW"
-                style={{
-                  color: theme.linkColor,
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  display: 'block',
-                  marginBottom: '12px'
-                }}
-              >
-                Twitter / X →
-              </a>
-              <a 
-                href="https://github.com/sir-shaedy"
-                style={{
-                  color: theme.linkColor,
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  display: 'block'
-                }}
-              >
-                GitHub →
-              </a>
-            </div>
-          </div>
+          <p style={{ ...paragraph, marginBottom: 0 }}>
+            I&apos;m Ayomide Idris Musa. Uhm... I think that&apos;s all to write here. By the time
+            you&apos;re reading this, my AI would have already corrected the grammatical errors.
+          </p>
         </main>
       </div>
     </div>

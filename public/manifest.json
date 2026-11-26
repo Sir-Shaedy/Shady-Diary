@@ -1,0 +1,16 @@
+{
+    "name": "AIM's Spot",
+    "short_name": "AIM's Spot",
+    "description": "My journal on things I've tried, studied and failed. I'm self-reflecting here.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#111318",
+    "theme_color": "#111318",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        }
+    ]
+}
