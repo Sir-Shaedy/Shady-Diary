@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://shady-ways.netlify.app/sitemap.xml
+Sitemap: https://sir-shaedy.github.io/Shady-Diary/sitemap.xml

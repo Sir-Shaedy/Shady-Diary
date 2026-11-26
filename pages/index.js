@@ -21,6 +21,15 @@ export default function Home() {
 
   const articles = [
     {
+      id: 'tokenization',
+      title: 'Tokenization by Hand: How LLMs Turn Text Into IDs',
+      category: 'Engineering',
+      date: 'November 26, 2026',
+      preview: 'A hands-on walkthrough of byte-level BPE, using Yoruba words to see how GPT-style models turn text into IDs.',
+      slug: 'tokenization',
+      readTime: '6 min read'
+    },
+    {
       id: 'kinetic-energy',
       title: 'Kinetic Energy and the Cost of Pity',
       category: 'Philosophy',

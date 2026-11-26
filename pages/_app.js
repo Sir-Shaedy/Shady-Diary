@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://shady-ways.netlify.app/" />
+        <meta property="og:url" content="https://sir-shaedy.github.io/Shady-Diary/" />
         <meta property="og:title" content="AIM's Spot" />
         <meta 
           property="og:description" 
@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://shady-ways.netlify.app/" />
+        <meta property="twitter:url" content="https://sir-shaedy.github.io/Shady-Diary/" />
         <meta property="twitter:title" content="AIM's Spot" />
         <meta 
           property="twitter:description" 
@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }) {
         <meta property="twitter:creator" content="@0xShaedyW" />
         
         {/* Canonical URL */}
-        <link rel="canonical" content="https://shady-ways.netlify.app/" />
+        <link rel="canonical" href="https://sir-shaedy.github.io/Shady-Diary/" />
         
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
